@@ -1,0 +1,93 @@
+/**
+ * Custom theme for Sfeir
+ * theme for reveal.js.
+ *
+ * Author : Vandendaele Alexis - vandendaele.a@sfeir.lu
+ * Feb 2014
+*/
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+
+// ---------------------------------------------
+
+$sfeirOrange: #e94e00;
+$sfeirBlack: #000000;
+$sfeirWhite: #ffffff;
+
+// Background of the presentation
+$backgroundColor: $sfeirWhite;
+
+// Primary/body text
+$mainFont: "Lucida Console", Monaco, monospace;
+// Sfeir font is Adale Mono Regular but it's rights protected
+$mainColor: $sfeirBlack;
+
+// Headings
+$headingFont: $mainFont;
+$headingColor: $sfeirOrange;
+
+// Links and actions
+$linkColor: lighten($sfeirOrange, 20%);
+$linkColorHover: $sfeirOrange;
+
+// Text selection
+$selectionBackgroundColor: $sfeirBlack;
+$selectionColor: $sfeirWhite;
+
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+  background: $backgroundColor;
+  background: url('../../../images/logo_sfeir.png') 20px 98% no-repeat;
+  background-size: auto 4%;
+}
+
+.reveal {
+  h1 {
+    font-size: 2.7em;
+  }
+
+  h2 {
+    font-size: 2.0em;
+    word-spacing: -0.2em;
+  }
+  h3 {
+    font-size: 1.3em;
+    word-spacing: -0.2em;
+  }
+
+  h2, h3, h4, h5 {
+    color: $sfeirBlack !important;
+    text-transform: none !important;
+  }
+
+  section.align-left > p {
+    text-align: left;
+  }
+
+  li > ul > li {
+    font-size: 0.75em;
+    line-height: 1.2em;
+  }
+
+  // Special for scala-prez
+  .norvig {
+    @extend .stretch;
+    font-size: .7em !important;
+
+    td:not(:first-child) {
+      text-align: right;
+    }
+
+    caption {
+      caption-side: bottom;
+      font-size: small;
+    }
+  }
+}
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+

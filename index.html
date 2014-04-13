@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/theme-sfeir.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Scala</h1>
+					<h3>The language</h3>
+					<p>
+						<small>Created by <a href="http://twitter.com/adriencominotto">Adrien Cominotto [&Xi;]</a> / <a href="http://twitter.com/_Xi_">Alexis Vandendaele [&equiv;]</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <section>
+                        <h2>Scala de Milan ?</h2>
+                        <img class="stretch" src="images/scala_milan.jpg"/>
+                    </section>
+
+                    <section class="align-left">
+                        <h2>Non celui de l'<a href="http://scala-lang.org">EPFL</a></h2>
+                        <img style="float: right; border: 0; box-shadow: none; margin: 0 -75px 0 0;" src="images/scala-spiral.png" />
+                        <p>Créé par <a href="http://twitter.com/odersky">Martin Odersky</a> en 2003</p>
+                        <p>Son nom vient de l'anglais Scalable language</p>
+                        <p>Scala intègre les paradigmes de programmation orientée objet et de programmation fonctionnelle, avec un typage statique</p>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Acte premier</h2>
+                    <h1 class="fragment">Le fonctionnel basique</h1>
+                    <ul class="fragment">
+                        <li>L'Immutabilité</li>
+                        <li>Les fonctions sont des objets ?!</li>
+                        <li>Le pattern matching</li>
+                        <li>L'exemple avec Option[T]</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>L'immutabilité</h2>
+                    <ul>
+                        <li>Avantages</li>
+                        <ul>
+                            <li>Thread-Safe</li>
+                            <li>Referencial transparancy</li>
+                        </ul>
+                        <li>Désavantages</li>
+                        <ul>
+                            <li>Pas simple à mettre en place dans un environnement où les objets contiennent des états</li>
+                        </ul>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Les fonctions sont des objets ?!</h2>
+                    <pre><code data-trim class="scala">
+def profile(a: Int, f : Int => Int) = {
+    val r = f(a)
+    println(s"value = $r")
+    r
+}
+
+val f = {i: Int => i + 42}
+profile(3, f)
+                    </code></pre>
+                </section>
+
+                <section>
+
+                    <section>
+                        <h2>Pattern Matching</h2>
+                        <pre><code data-trim class="scala">
+val i = 42
+i match {
+    case 42 => println("Bravo, tu as trouvé la réponse universelle!")
+    case _ => println(s"$i n'est pas la réponse universelle...")
+}
+                        </code></pre>
+
+                        <pre><code data-trim class="scala">
+val s = "foo"
+s match {
+    case "foo" => println(s"$s bar")
+    case _ => println("$s not bar")
+}
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>Leveled Up</h3>
+                        <pre><code data-trim class="scala">
+case class MyClass(a: Int, b: String)
+
+MyClass(scala.util.Random.nextInt(100), "foo") match {
+    case MyClass(42, s) => println("Bravo! $s,  tu as trouvé la réponse universelle!")
+    case MyClass(n, "foo") if n < 42 => println("Trop bas");
+    case MyClass(n, "foo") if n > 42 => println("Trop haut");
+    case MyClass(n, s) => println(s"Désolé $s, $n n'est pas la réponse universelle...")
+}
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>Catch me if you can</h3>
+                        <pre><code data-trim class="scala">
+case class FooException(msg: String) extends RuntimeException(msg)
+
+try {
+    throw FooException("bar")
+} catch {
+    case FooException(msg) => prinln(s"Exception $msg")
+    case e: RuntimeException =>
+        println("RuntimeException catched and rethrown")
+        throw e
+    case NonFatal(e) =>
+        println("Something not that bad occured")
+        throw e
+}
+                        </code></pre>
+                    </section>
+
+                </section>
+
+                <section>
+                    <h2>Option[T]</h2>
+                    <pre><code data-trim class="scala">
+val foo = Some(42).flatMap(i => if(i == 42) Some(s"La réponse universelle est $i") else None)
+foo match {
+     case Some(v) => println(v)
+     case None => println("Whoops, nothing...")
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Acte second</h2>
+                    <h1 class="fragment">Les traits</h1>
+                </section>
+
+                <section>
+                    <h2>Les traits</h2>
+                    <pre><code data-trim class="scala">
+class Animal {
+     override def toString = "I'm an animal"
+}
+
+trait Flying extends Animal {
+     override def toString = s"${super.toString} and I fly"
+}
+
+trait Swimming extends Animal {
+     override def toString = s"${super.toString} and I swim"
+}
+
+val swimmingBird = new Animal with Flying with Swimming
+val flyingFish = new Animal with Swimming with Flying
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Acte trois</h2>
+                    <h1 class="fragment">Les collections</h1>
+                    <ul class="fragment">
+                        <li>filter</li>
+                        <li>map</li>
+                        <li>flatMap</li>
+                        <li>foldLeft & foldRight</li>
+                        <li>for comprehension</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Filter</h2>
+                    <pre><code data-trim class="scala">List[T]# filter(f: T => Boolean): List[T]</code></pre>
+                    <pre><code data-trim class="scala">
+// Renvoie toutes les personnes dont l'âge est inférieur à 25 ans
+persons.filter(p => p.age <= 25)
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Map</h2>
+                    <pre><code data-trim class="scala">List[T]# map[U](f: T => U): List[U]</code></pre>
+                    <pre><code data-trim class="scala">
+// Renvoie une liste de tous les noms et prénoms des personnes
+persons.map(p => p.name + " " + p.firstName)
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>FlatMap</h2>
+                    <pre><code data-trim class="scala">List[T]# flatMap[U](f: T => List[U]): List[U]</code></pre>
+                    <pre><code data-trim class="scala">
+// Renvoie une liste de tous les personnes avec ses amis
+persons.flatMap(p => p :: friends.filter(f => f.age == p.age))
+                    </code></pre>
+                </section>
+
+                <section>
+                    <img class="stretch" src="images/flatmap.jpg" />
+                </section>
+
+                <section>
+                    <h2>FoldLeft & FoldRight</h2>
+                    <pre><code data-trim class="scala">List[T]# foldLeft[U](acc: U)(f: (U, T) => U)</code></pre>
+                    <pre><code data-trim class="scala">
+persons.foldLeft((0,0)) { (acc, p) => p.sex match {
+         case Female => (acc._1 + 1, acc._2)
+         case Male => (acc._1, acc._2 + 1)
+         case _ => acc
+     }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>For-comprehension loop</h2>
+                <pre><code data-trim class="scala">
+for{
+    p &lt;- persons
+    f &lt;- friends if(f.age == p.age)
+} yield (p, f)
+// renvoie la liste des personnes ainsi que leurs amis associés (ceux qui ont le même âge, le monde est beau)
+                    </code></pre>
+                    <pre><code data-trim class="scala">
+persons.flatMap{p =>
+    friends.filter(_.age == p.age)
+           .map(f => (p, f))
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Acte quatre</h2>
+                    <h1 class="fragment">Les implicites</h1>
+                </section>
+
+                <section>
+                    <h2>Les implicits</h2>
+                    <pre><code data-trim class="scala">
+implicit val x = 5
+def inc(implicit i: Int) = i + 1
+
+case class Person(age: Int, name: String) {
+    def tellAge = println(s"$name >> $age")
+}
+implicit def tupleToPerson(t: (Int, String)): Person = {
+    Person(t._1, t._2)
+}
+(28, "Alexis").tellAge
+
+def sorted[B >: A](implicit ord: math.Ordering[B]): List[A]
+object AgeOrdering extends Ordering[Person] {
+     def compare(a: Person, b: Person) = a.age compare b.age
+}
+person.sorted
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Acte cinq</h2>
+                    <h1 class="fragment">L'asynchrone</h1>
+                    <ul class="fragment">
+                        <li>Les futures</li>
+                        <li>Les promises</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>De quoi avons nous besoin ?</h2>
+                    <pre><code data-trim class="scala">
+val socket = Socket()
+val paquet = socket.readFromMemory()
+socket.sendToUSA(paquet)
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>TBD</h2>
+                    <table class="strech norvig">
+                         <tbody>
+                            <tr>
+                                <td>execute typical instruction</td>
+                                <td style="text-align:right;"> 1/1,000,000,000 sec = 1 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>fetch from L1 cache memory</td>
+                                <td align="right"> 0.5 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>branch misprediction</td>
+                                <td align="right"> 5 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>fetch from L2 cache memory</td>
+                                <td align="right"> 7 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>Mutex lock/unlock</td>
+                                <td align="right"> 25 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>fetch from main memory</td>
+                                <td align="right"> 100 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>send 2K bytes over 1Gbps network</td>
+                                <td align="right"> 20,000 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>read 1MB sequentially from memory</td>
+                                <td align="right"> 250,000 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>fetch from new disk location (seek)</td>
+                                <td align="right"> 8,000,000 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>read 1MB sequentially from disk</td>
+                                <td align="right"> 20,000,000 nanosec</td>
+                            </tr>
+                            <tr>
+                                <td>send packet US to Europe and back</td>
+                                <td align="right"> 150 milliseconds = 150,000,000 nanosec</td>
+                            </tr>
+                        </tbody>
+                        <caption>source: <a href="http://norvig.com/21-days.html#Answers">Peter Norvig</a></caption>
+                    </table>
+            </section>
+
+            <section>
+                <h2></h2>
+                <pre><code data-trim class="scala">
+val socket = Socket()
+val paquet = socket.readFromMemory() //50 000 ns
+socket.sendToUSA(paquet) // 150 000 000 ns
+                </code></pre>
+
+                <pre><code data-trim class="scala">
+val socket = Socket()
+val paquet = socket.readFromMemory() // 3 jours
+socket.sendToUSA(paquet) // 5 ans
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Les futures</h2>
+                <pre><code data-trim class="scala">
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+val socket = Socket()
+val paquet = Future { socket.readFromMemory()  }// paquet est maintenant une future...
+socket.sendToUSA(paquet) // FAUX: paquet est une future !!!
+
+val futurAck = paquet.flatMap { p =>
+    Future { socket.sendToUSA(p) }
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Les promises</h2>
+                <pre><code data-trim class="scala">
+Promise[T]().future
+                </code></pre>
+                <pre><code data-trim class="scala">
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+
+val promise = Promise[String]()
+
+promise.future.map(w => println(s"$w FIRST!"))
+
+def sendToUsa(message: String) = Future {Thread.sleep(scala.util.Random.nextInt(5000)); message}.map(m => promise.success(s"USA received $m"))
+def sendToChina(message: String) = Future {Thread.sleep(scala.util.Random.nextInt(5000)); message}.map(m => promise.success(s"China received $m"))
+
+sendToUsa("Hello!"); sendToChina("Ni hao!")
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Des questions ?</h2>
+            </section>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                width: 1024,
+                height: 768,
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
