@@ -4,34 +4,9 @@ module.exports = function(grunt) {
 
 	// Project configuration
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
-		meta: {
-			banner:
-				'/*!\n' +
-				' * <%= pkg.name %> <%= pkg.version %> (<%= grunt.template.today("yyyy-mm-dd, HH:MM") %>)\n' +
-                ' * <%= pkg.description %>\n' +
-				' */'
-		},
+		//pkg: grunt.file.readJSON('package.json'),
 
-		uglify: {
-			options: {
-				banner: '<%= meta.banner %>\n'
-			},
-			build: {
-				src: 'js/reveal.js',
-				dest: 'js/reveal.min.js'
-			}
-		},
-
-		cssmin: {
-			compress: {
-				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
-				}
-			}
-		},
-
-		sass: {
+        sass: {
 			main: {
 				files: {
 					'css/theme/default.css': 'css/theme/source/default.scss',
@@ -41,23 +16,40 @@ module.exports = function(grunt) {
 		},
 
 		connect: {
-			server: {
-				options: {
-					port: port,
-					base: '.'
-				}
-			}
+            options: {
+                hostname: 'localhost',
+                base: '.'
+
+            },
+            livereload: {
+                options: {
+                    port: 9000,
+                    open: true,
+                    livereload: 35729
+                }
+            }
 		},
 
 		watch: {
 			main: {
-				files: [ 'Gruntfile.js', 'js/reveal.js', 'css/reveal.css', 'index.html' ],
-				tasks: 'default'
+				files: [ 'index.html' ]
 			},
 			theme: {
-				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
+				files: [
+                    'css/theme/source/*.scss',
+                    'css/theme/template/*.scss'
+                ],
 				tasks: 'themes'
-			}
+			},
+            livereload: {
+                options: {
+                    livereload: '<%= connect.livereload.options.livereload %>'
+                },
+                files: [
+                    '<%= watch.main.files %>',
+                    '<%= watch.theme.files %>'
+                ]
+            }
 		}
 
 	});
@@ -68,7 +60,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
-	grunt.loadNpmTasks( 'grunt-zip' );
 
 	// Default task
 	grunt.registerTask( 'default', [ 'cssmin', 'uglify' ] );
@@ -77,9 +68,6 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'themes', [ 'sass' ] );
 
 	// Package presentation to archive
-	grunt.registerTask( 'package', [ 'default', 'zip' ] );
-
-	// Serve presentation locally
-	grunt.registerTask( 'serve', [ 'connect', 'watch' ] );
+	grunt.registerTask( 'serve', [ 'themes', 'connect:livereload', 'watch' ] );
 
 };

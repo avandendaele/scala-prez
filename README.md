@@ -1,17 +1,13 @@
 # Scala-Prez 
-The goal of this presentation is to give you a fast overview of Scala and its power.
+The goal of this presentation is to give you a fast overview of [Scala](http://scala-lang.org) and its power.
 
-Required:
-+ [NodeJS](http://nodejs.org/)
-+ [Grunt](http://gruntjs.com/)
-+ [Bower](https://github.com/bower/bower)
+## Requirements
+* [NodeJS](http://nodejs.org/)
+* [Grunt](http://gruntjs.com/getting-started)
 
-git clone git@github.com:avandendaele/scala-prez.git
-
-cd scala-prez
-
-npm update
-
-bower install
-
-grunt serve
+```
+$ git clone git@github.com:avandendaele/scala-prez.git`
+$ cd scala-prez
+$ npm update
+$ grunt serve
+```

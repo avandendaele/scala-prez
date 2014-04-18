@@ -73,7 +73,7 @@ $selectionColor: $sfeirWhite;
 
   // Special for scala-prez
   .norvig {
-    @extend .stretch;
+    @extend .stretch !optional;
     font-size: .7em !important;
 
     td:not(:first-child) {
