@@ -6,7 +6,7 @@ The goal of this presentation is to give you a fast overview of [Scala](http://s
 * [Grunt](http://gruntjs.com/getting-started)
 
 ```
-$ git clone git@github.com:avandendaele/scala-prez.git`
+$ git clone git@github.com:avandendaele/scala-prez.git
 $ cd scala-prez
 $ npm update
 $ grunt serve
