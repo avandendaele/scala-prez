@@ -64,9 +64,61 @@
                         <p>Scala intègre les paradigmes de programmation orientée objet et de programmation fonctionnelle, avec un typage statique</p>
                     </section>
                 </section>
-
-                <section>
+		<section>
                     <h2>Acte premier</h2>
+                    <h1 class="fragment">Les structures</h1><!-- Adrien -->
+                </section>
+
+		<section>
+                    <h2>Les classes</h2>
+                    <pre><code data-trim class="scala">
+class Person(val name: String, val firstName) {
+     override def toString = s"Hi I'm $firstName"
+}
+new Person("Odersky", "Martin").toString // Hi I'm Martin
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Les objets</h2>
+                    <pre><code data-trim class="scala">
+object Person {
+    val all = List(Person("Odersky", "Martin"), Person("Kuhn", "Roland"), Person("Suereth","Josh"))
+     
+}
+val vips = Person.all
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Les case classes</h2>
+                    <pre><code data-trim class="scala">
+case class Person(val name: String, val firstName) {
+     override def toString = s"Hi I'm $firstName"
+}
+Person("Odersky", "Martin").toString // Hi I'm Martin
+//Pattern Matching !!
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Les traits</h2>
+                    <pre><code data-trim class="scala">
+class Animal {
+     override def toString = "I'm an animal"
+}
+
+trait Flying extends Animal {
+     override def toString = s"${super.toString} and I fly"
+}
+
+trait Swimming extends Animal {
+     override def toString = s"${super.toString} and I swim"
+}
+
+val swimmingBird = new Animal with Flying with Swimming
+val flyingFish = new Animal with Swimming with Flying
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Acte second</h2>
                     <h1 class="fragment">Le fonctionnel basique</h1>
                     <ul class="fragment">
                         <li>L'Immutabilité</li><!-- Adrien -->
@@ -169,31 +221,6 @@ foo match {
      case Some(v) => println(v)
      case None => println("Whoops, nothing...")
 }
-                    </code></pre>
-                </section>
-
-                <section>
-                    <h2>Acte second</h2>
-                    <h1 class="fragment">Les traits</h1><!-- Adrien -->
-                </section>
-
-                <section>
-                    <h2>Les traits</h2>
-                    <pre><code data-trim class="scala">
-class Animal {
-     override def toString = "I'm an animal"
-}
-
-trait Flying extends Animal {
-     override def toString = s"${super.toString} and I fly"
-}
-
-trait Swimming extends Animal {
-     override def toString = s"${super.toString} and I swim"
-}
-
-val swimmingBird = new Animal with Flying with Swimming
-val flyingFish = new Animal with Swimming with Flying
                     </code></pre>
                 </section>
 
