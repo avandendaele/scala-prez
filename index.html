@@ -82,7 +82,10 @@ new Person("Odersky", "Martin").toString // Hi I'm Martin
                     <h2>Les objets</h2>
                     <pre><code data-trim class="scala">
 object Person {
-    val all = List(Person("Odersky", "Martin"), Person("Kuhn", "Roland"), Person("Suereth","Josh"))
+    def apply(name: String, firstName: String) = new Person(name, firstName)
+    val all = List( Person("Odersky", "Martin"), 
+                    Person("Kuhn", "Roland"), 
+                    Person("Suereth","Josh"))
      
 }
 val vips = Person.all
