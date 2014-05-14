@@ -72,10 +72,12 @@
 		<section>
                     <h2>Les classes</h2>
                     <pre><code data-trim class="scala">
-class Person(val name: String, val firstName) {
-     override def toString = s"Hi I'm $firstName"
+class Person(val name: String, val firstName: String) {
+     def sayHi = s"Hi I'm $name, $firstName"
 }
-new Person("Odersky", "Martin").toString // Hi I'm Martin
+
+val p = new Person("Odersky", "Martin")
+p.sayHi
                     </code></pre>
                 </section>
                 <section>
@@ -86,7 +88,6 @@ object Person {
     val all = List( Person("Odersky", "Martin"), 
                     Person("Kuhn", "Roland"), 
                     Person("Suereth","Josh"))
-     
 }
 val vips = Person.all
                     </code></pre>
@@ -94,11 +95,12 @@ val vips = Person.all
                 <section>
                     <h2>Les case classes</h2>
                     <pre><code data-trim class="scala">
-case class Person(val name: String, val firstName) {
-     override def toString = s"Hi I'm $firstName"
+case class Person(val name: String, val firstName: String) {
+     def sayHi = s"Hi I'm $name $firstName"
 }
-Person("Odersky", "Martin").toString // Hi I'm Martin
-//Pattern Matching !!
+
+val p = Person("Odersky", "Martin")
+p.sayHi
                     </code></pre>
                 </section>
                 <section>
