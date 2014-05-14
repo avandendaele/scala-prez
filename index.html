@@ -205,11 +205,11 @@ case class FooException(msg: String) extends RuntimeException(msg)
 try {
     throw FooException("bar")
 } catch {
-    case FooException(msg) => prinln(s"Exception $msg")
+    case FooException(msg) => println(s"Exception $msg")
     case e: RuntimeException =>
         println("RuntimeException catched and rethrown")
         throw e
-    case NonFatal(e) =>
+    case scala.util.control.NonFatal(e) =>
         println("Something not that bad occured")
         throw e
 }
@@ -221,7 +221,7 @@ try {
                 <section>
                     <h2>Option[T]</h2>
                     <pre><code data-trim class="scala">
-val foo = Some(42)
+val foo = Option(42)
 foo match {
      case Some(v) => println(v)
      case None => println("Whoops, nothing...")
@@ -261,7 +261,7 @@ persons.map(p => p.name + " " + p.firstName)
                     <h2>FlatMap</h2>
                     <pre><code data-trim class="scala">List[T] flatMap[U](f: T => List[U]): List[U]</code></pre>
                     <pre><code data-trim class="scala">
-persons.flatMap(p => p :: friends.filter(f => f.age == p.age))
+persons.flatMap(p => p :: speakers.filter(s => s.age % 2 == p.age % 2))
                     </code></pre>
                 </section>
 
@@ -273,14 +273,14 @@ persons.flatMap(p => p :: friends.filter(f => f.age == p.age))
                     <h2>For-comprehension loop</h2>
                 <pre><code data-trim class="scala">
 for {
-    p &lt;- persons
-    f &lt;- friends if(f.age == p.age)
-} yield (p, f)
+    p <- persons
+    s <- speakers if (s.age % 2 == p.age % 2)
+} yield (p, s)
                 </code></pre>
                     <pre><code data-trim class="scala">
-persons.flatMap{p => friends
-    .filter(_.age == p.age)
-    .map(f => (p, f))
+persons.flatMap{p => speakers
+    .filter(_.age % 2 == p.age % 2)
+    .map(s => (p, s))
 }
                     </code></pre>
                 </section>
