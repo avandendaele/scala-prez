@@ -21,8 +21,11 @@
 .reveal li > ul > li {
   font-size: 0.75em;
   line-height: 1.2em; }
+.reveal pre code {
+  padding: 10px; }
 .reveal .norvig {
-  font-size: .7em !important; }
+  font-size: .8em !important;
+  width: 100%; }
   .reveal .norvig td:not(:first-child) {
     text-align: right; }
   .reveal .norvig caption {

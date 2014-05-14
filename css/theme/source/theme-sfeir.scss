@@ -71,10 +71,18 @@ $selectionColor: $sfeirWhite;
     line-height: 1.2em;
   }
 
+  // Increase padding for code blocs
+  pre {
+    code {
+      padding: 10px;
+    }
+  }
+
   // Special for scala-prez
   .norvig {
     @extend .stretch !optional;
-    font-size: .7em !important;
+    font-size: .8em !important;
+    width: 100%;
 
     td:not(:first-child) {
       text-align: right;
