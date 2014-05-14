@@ -312,16 +312,16 @@ def inc(implicit i: Int) = i + 1
 
                     <pre><code data-trim class="scala">
 case class Person(age: Int, name: String) {
-    def tellAge = println(s"$name >> $age")
+    def sayHi = println(s"Hi!, I'm $name and I'm $age")
 }
 implicit def tupleToPerson(t: (Int, String)): Person = {
     Person(t._1, t._2)
 }
-(28, "Alexis").tellAge
+(28, "Alexis").sayHi
                     </code></pre>
                     <pre><code data-trim class="scala">
 def sorted[B >: A](implicit ord: math.Ordering[B]): List[A]
-object AgeOrdering extends Ordering[Person] {
+implicit object AgeOrdering extends Ordering[Person] {
      def compare(a: Person, b: Person) = a.age compare b.age
 }
 person.sorted
