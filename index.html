@@ -72,10 +72,13 @@
 		<section>
                     <h2>Les classes</h2>
                     <pre><code data-trim class="scala">
+
 class Person(val name: String, val firstName) {
      override def toString = s"[name=$name, firstname=$firstName]"
 }
-new Person("Odersky", "Martin").toString // Hi I'm Martin
+
+val p = new Person("Odersky", "Martin")
+p.sayHi
                     </code></pre>
                 </section>
                 <section>
@@ -86,7 +89,6 @@ object Person {
     val all = List( Person("Odersky", "Martin"), 
                     Person("Kuhn", "Roland"), 
                     Person("Suereth","Josh"))
-     
 }
 val vips = Person.all
                     </code></pre>
@@ -94,6 +96,7 @@ val vips = Person.all
                 <section>
                     <h2>Les case classes</h2>
                     <pre><code data-trim class="scala">
+
 case class Person(val name: String, val firstName: String)
 Person("Odersky", "Martin").toString // Person(Odersky,Martin)
                     </code></pre>
@@ -162,18 +165,18 @@ profile(3, f)
                     <section>
                         <h2>Pattern Matching</h2>
                         <pre><code data-trim class="scala">
-val i = 42
-i match {
-    case 42 => println("Bravo, tu as trouvé la réponse universelle!")
-    case _ => println(s"$i n'est pas la réponse universelle...")
+val s = "foo"
+s match {
+    case "foo" => println(s"$s bar")
+    case _ => println(s"$s not bar")
 }
                         </code></pre>
 
                         <pre><code data-trim class="scala">
-val s = "foo"
-s match {
-    case "foo" => println(s"$s bar")
-    case _ => println("$s not bar")
+def parseArg(arg: String) = arg match {
+    case "--help" | "-h" => println("Afficher l'aide")
+    case "--version" | "-v" => println("Afficher la version")
+    case unknownArg => println(s"Argument non reconnu: $unknownArg")
 }
                         </code></pre>
                     </section>
@@ -200,11 +203,11 @@ case class FooException(msg: String) extends RuntimeException(msg)
 try {
     throw FooException("bar")
 } catch {
-    case FooException(msg) => prinln(s"Exception $msg")
+    case FooException(msg) => println(s"Exception $msg")
     case e: RuntimeException =>
         println("RuntimeException catched and rethrown")
         throw e
-    case NonFatal(e) =>
+    case scala.util.control.NonFatal(e) =>
         println("Something not that bad occured")
         throw e
 }
@@ -216,7 +219,8 @@ try {
                 <section>
                     <h2>Option[T]</h2>
                     <pre><code data-trim class="scala">
-val foo = Some(42)
+
+val foo = Option(42)
 foo match {
      case Some(v) => println(v)
      case None => println("Whoops, nothing...")
@@ -238,28 +242,25 @@ foo match {
 
                 <section>
                     <h2>Filter</h2>
-                    <pre><code data-trim class="scala">List[T]# filter(f: T => Boolean): List[T]</code></pre>
+                    <pre><code data-trim class="scala">List[T] filter(f: T => Boolean): List[T]</code></pre>
                     <pre><code data-trim class="scala">
-// Renvoie toutes les personnes dont l'âge est inférieur à 25 ans
 persons.filter(p => p.age <= 25)
                     </code></pre>
                 </section>
 
                 <section>
                     <h2>Map</h2>
-                    <pre><code data-trim class="scala">List[T]# map[U](f: T => U): List[U]</code></pre>
+                    <pre><code data-trim class="scala">List[T] map[U](f: T => U): List[U]</code></pre>
                     <pre><code data-trim class="scala">
-// Renvoie une liste de tous les noms et prénoms des personnes
 persons.map(p => p.name + " " + p.firstName)
                     </code></pre>
                 </section>
 
                 <section>
                     <h2>FlatMap</h2>
-                    <pre><code data-trim class="scala">List[T]# flatMap[U](f: T => List[U]): List[U]</code></pre>
+                    <pre><code data-trim class="scala">List[T] flatMap[U](f: T => List[U]): List[U]</code></pre>
                     <pre><code data-trim class="scala">
-// Renvoie une liste de tous les personnes avec ses amis
-persons.flatMap(p => p :: friends.filter(f => f.age == p.age))
+persons.flatMap(p => p :: speakers.filter(s => s.age % 2 == p.age % 2))
                     </code></pre>
                 </section>
 
@@ -268,31 +269,31 @@ persons.flatMap(p => p :: friends.filter(f => f.age == p.age))
                 </section>
 
                 <section>
+                    <h2>For-comprehension loop</h2>
+                <pre><code data-trim class="scala">
+for {
+    p <- persons
+    s <- speakers if (s.age % 2 == p.age % 2)
+} yield (p, s)
+                </code></pre>
+                    <pre><code data-trim class="scala">
+persons.flatMap{p => speakers
+    .filter(_.age % 2 == p.age % 2)
+    .map(s => (p, s))
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    </code></pre>
                     <h2>FoldLeft & FoldRight</h2>
-                    <pre><code data-trim class="scala">List[T]# foldLeft[U](acc: U)(f: (U, T) => U)</code></pre>
+                    <pre><code data-trim class="scala">List[T] foldLeft[U](acc: U)(f: (U, T) => U): U</code></pre>
                     <pre><code data-trim class="scala">
 persons.foldLeft((0,0)) { (acc, p) => p.sex match {
          case Female => (acc._1 + 1, acc._2)
          case Male => (acc._1, acc._2 + 1)
          case _ => acc
      }
-}
-                    </code></pre>
-                </section>
-
-                <section>
-                    <h2>For-comprehension</h2>
-                <pre><code data-trim class="scala">
-for{
-    p &lt;- persons
-    f &lt;- friends if(f.age == p.age)
-} yield (p, f)
-// renvoie la liste des personnes ainsi que leurs amis associés (ceux qui ont le même âge, le monde est beau)
-                    </code></pre>
-                    <pre><code data-trim class="scala">
-persons.flatMap{p =>
-    friends.filter(_.age == p.age)
-           .map(f => (p, f))
 }
                     </code></pre>
                 </section>
@@ -307,17 +308,20 @@ persons.flatMap{p =>
                     <pre><code data-trim class="scala">
 implicit val x = 5
 def inc(implicit i: Int) = i + 1
+                    </code></pre>
 
+                    <pre><code data-trim class="scala">
 case class Person(age: Int, name: String) {
-    def tellAge = println(s"$name >> $age")
+    def sayHi = println(s"Hi!, I'm $name and I'm $age")
 }
 implicit def tupleToPerson(t: (Int, String)): Person = {
     Person(t._1, t._2)
 }
-(28, "Alexis").tellAge
-
+(28, "Alexis").sayHi
+                    </code></pre>
+                    <pre><code data-trim class="scala">
 def sorted[B >: A](implicit ord: math.Ordering[B]): List[A]
-object AgeOrdering extends Ordering[Person] {
+implicit object AgeOrdering extends Ordering[Person] {
      def compare(a: Person, b: Person) = a.age compare b.age
 }
 person.sorted
@@ -334,7 +338,7 @@ person.sorted
                 </section>
 
                 <section>
-                    <h2>De quoi avons nous besoin ?</h2>
+                    <h2>Le problème</h2>
                     <pre><code data-trim class="scala">
 val socket = Socket()
 val paquet = socket.readFromMemory()
@@ -343,52 +347,36 @@ socket.sendToUSA(paquet)
                 </section>
 
                 <section>
-                    <h2>TBD</h2>
-                    <table class="strech norvig">
+                    <h2>Temps d'executions</h2>
+                    <table class="norvig">
                          <tbody>
                             <tr>
                                 <td>execute typical instruction</td>
-                                <td style="text-align:right;"> 1/1,000,000,000 sec = 1 nanosec</td>
-                            </tr>
-                            <tr>
-                                <td>fetch from L1 cache memory</td>
-                                <td align="right"> 0.5 nanosec</td>
-                            </tr>
-                            <tr>
-                                <td>branch misprediction</td>
-                                <td align="right"> 5 nanosec</td>
-                            </tr>
-                            <tr>
-                                <td>fetch from L2 cache memory</td>
-                                <td align="right"> 7 nanosec</td>
-                            </tr>
-                            <tr>
-                                <td>Mutex lock/unlock</td>
-                                <td align="right"> 25 nanosec</td>
+                                <td style="text-align:right;">1 nanosec</td>
                             </tr>
                             <tr>
                                 <td>fetch from main memory</td>
-                                <td align="right"> 100 nanosec</td>
+                                <td align="right">100 nanosec</td>
                             </tr>
                             <tr>
                                 <td>send 2K bytes over 1Gbps network</td>
-                                <td align="right"> 20,000 nanosec</td>
+                                <td align="right">20,000 nanosec</td>
                             </tr>
                             <tr>
                                 <td>read 1MB sequentially from memory</td>
-                                <td align="right"> 250,000 nanosec</td>
+                                <td align="right">250,000 nanosec</td>
                             </tr>
                             <tr>
                                 <td>fetch from new disk location (seek)</td>
-                                <td align="right"> 8,000,000 nanosec</td>
+                                <td align="right">8,000,000 nanosec</td>
                             </tr>
                             <tr>
                                 <td>read 1MB sequentially from disk</td>
-                                <td align="right"> 20,000,000 nanosec</td>
+                                <td align="right">20,000,000 nanosec</td>
                             </tr>
                             <tr>
                                 <td>send packet US to Europe and back</td>
-                                <td align="right"> 150 milliseconds = 150,000,000 nanosec</td>
+                                <td align="right">150,000,000 nanosec</td>
                             </tr>
                         </tbody>
                         <caption>source: <a href="http://norvig.com/21-days.html#Answers">Peter Norvig</a></caption>
@@ -396,15 +384,16 @@ socket.sendToUSA(paquet)
             </section>
 
             <section>
-                <h2></h2>
+                <h2>Le problème</h2>
                 <pre><code data-trim class="scala">
 val socket = Socket()
-val paquet = socket.readFromMemory() //50 000 ns
+val paquet = socket.readFromMemory() // 250 000 ns
 socket.sendToUSA(paquet) // 150 000 000 ns
                 </code></pre>
 
                 <pre><code data-trim class="scala">
 //1 nanosecond = 1 second
+                <pre class="fragment"><code data-trim class="scala">
 val socket = Socket()
 val paquet = socket.readFromMemory() // 3 jours
 socket.sendToUSA(paquet) // 5 ans
@@ -414,15 +403,15 @@ socket.sendToUSA(paquet) // 5 ans
             <section>
                 <h2>Les futures</h2>
                 <pre><code data-trim class="scala">
+Future[T]
+                </code></pre>
+                <pre><code data-trim class="scala">
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-val socket = Socket()
-val paquet = Future { socket.readFromMemory()  }// paquet est maintenant une future...
-socket.sendToUSA(paquet) // FAUX: paquet est une future !!!
 
-val futurAck = paquet.flatMap { p =>
-    Future { socket.sendToUSA(p) }
-}
+val socket = Socket()
+val paquet = Future { socket.readFromMemory()  }
+paquet.map(socket.sendToUSA)
                 </code></pre>
             </section>
 
@@ -436,11 +425,17 @@ import scala.concurrent._
 import ExecutionContext.Implicits.global
 
 val promise = Promise[String]()
-
 promise.future.map(w => println(s"$w FIRST!"))
 
-def sendToUsa(message: String) = Future {Thread.sleep(scala.util.Random.nextInt(5000)); message}.map(m => promise.success(s"USA received $m"))
-def sendToChina(message: String) = Future {Thread.sleep(scala.util.Random.nextInt(5000)); message}.map(m => promise.success(s"China received $m"))
+def sendToUsa(message: String) = Future {
+    Thread.sleep(scala.util.Random.nextInt(5000))
+    message
+}.map(m => promise.success(s"USA received $m"))
+
+def sendToChina(message: String) = Future {
+    Thread.sleep(scala.util.Random.nextInt(5000))
+    message
+}.map(m => promise.success(s"China received $m"))
 
 sendToUsa("Hello!"); sendToChina("Ni hao!")
                 </code></pre>
