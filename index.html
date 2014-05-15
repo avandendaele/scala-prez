@@ -43,10 +43,10 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Scala</h1>
-					<h3>The language</h3>
+					<h3>On fait la Java dans </h3>
+                    <h1>Scala</h1>
 					<p>
-						<small>Created by <a href="http://twitter.com/adriencominotto">Adrien Cominotto [&equiv;]</a> / <a href="http://twitter.com/_Xi_">Alexis Vandendaele [&equiv;]</a></small>
+						<small>Créé par <a href="http://twitter.com/adriencominotto">Adrien Cominotto [&equiv;]</a> / <a href="http://twitter.com/_Xi_">Alexis Vandendaele [&equiv;]</a></small>
 					</p>
 				</section>
 
@@ -73,7 +73,7 @@
                     <h2>Les classes</h2>
                     <pre><code data-trim class="scala">
 class Person(val name: String, val firstName) {
-     override def toString = s"Hi I'm $firstName"
+     override def toString = s"[name=$name, firstname=$firstName]"
 }
 new Person("Odersky", "Martin").toString // Hi I'm Martin
                     </code></pre>
@@ -94,11 +94,8 @@ val vips = Person.all
                 <section>
                     <h2>Les case classes</h2>
                     <pre><code data-trim class="scala">
-case class Person(val name: String, val firstName) {
-     override def toString = s"Hi I'm $firstName"
-}
-Person("Odersky", "Martin").toString // Hi I'm Martin
-//Pattern Matching !!
+case class Person(val name: String, val firstName: String)
+Person("Odersky", "Martin").toString // Person(Odersky,Martin)
                     </code></pre>
                 </section>
                 <section>
@@ -137,7 +134,7 @@ val flyingFish = new Animal with Swimming with Flying
                         <li>Avantages</li>
                         <ul>
                             <li>Thread-Safe</li>
-                            <li>Referencial transparancy</li>
+                            <li>Transparence référentielle</li>
                         </ul>
                         <li>Désavantages</li>
                         <ul>
@@ -219,7 +216,7 @@ try {
                 <section>
                     <h2>Option[T]</h2>
                     <pre><code data-trim class="scala">
-val foo = Some(42).flatMap(i => if(i == 42) Some(s"La réponse universelle est $i") else None)
+val foo = Some(42)
 foo match {
      case Some(v) => println(v)
      case None => println("Whoops, nothing...")
@@ -284,7 +281,7 @@ persons.foldLeft((0,0)) { (acc, p) => p.sex match {
                 </section>
 
                 <section>
-                    <h2>For-comprehension loop</h2>
+                    <h2>For-comprehension</h2>
                 <pre><code data-trim class="scala">
 for{
     p &lt;- persons
@@ -407,6 +404,7 @@ socket.sendToUSA(paquet) // 150 000 000 ns
                 </code></pre>
 
                 <pre><code data-trim class="scala">
+//1 nanosecond = 1 second
 val socket = Socket()
 val paquet = socket.readFromMemory() // 3 jours
 socket.sendToUSA(paquet) // 5 ans
