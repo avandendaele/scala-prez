@@ -71,19 +71,44 @@ $selectionColor: $sfeirWhite;
     line-height: 1.2em;
   }
 
+  h1, h2, h3, h4, h5, li, p {
+    code {
+      color: $linkColor;
+      text-shadow: none;
+    }
+  }
+
+  .sub {
+    color: lighten($sfeirBlack, 40%) !important;
+    font-style: italic;
+    text-shadow: none;
+  }
+
+  // Increase padding for code blocs
+  pre {
+    code {
+      padding: 10px;
+    }
+  }
+
   // Special for scala-prez
   .norvig {
     @extend .stretch !optional;
-    font-size: .7em !important;
+    font-size: .8em !important;
+    width: 100%;
 
     td:not(:first-child) {
       text-align: right;
     }
 
     caption {
+      @extend .note;
       caption-side: bottom;
-      font-size: small;
     }
+  }
+
+  .note {
+    font-size: small;
   }
 }
 
