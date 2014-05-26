@@ -91,6 +91,11 @@ $selectionColor: $sfeirWhite;
     }
   }
 
+  .no-frame {
+    border: none !important;
+    box-shadow: none;
+  }
+
   // Special for scala-prez
   .norvig {
     @extend .stretch !optional;

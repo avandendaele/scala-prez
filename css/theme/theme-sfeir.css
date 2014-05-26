@@ -30,6 +30,9 @@
   text-shadow: none; }
 .reveal pre code {
   padding: 10px; }
+.reveal .no-frame {
+  border: none !important;
+  box-shadow: none; }
 .reveal .norvig {
   font-size: .8em !important;
   width: 100%; }

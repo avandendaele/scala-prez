@@ -18,16 +18,22 @@ module.exports = function(grunt) {
 		connect: {
             options: {
                 hostname: 'localhost',
-                base: '.'
-
+                base: '.',
+                port: 9000,
+                open: true
             },
             livereload: {
                 options: {
-                    port: 9000,
-                    open: true,
                     livereload: 35729
                 }
+            },
+            prez: {
+                options: {
+                    livereload: false,
+                    keepalive: true
+                }
             }
+
 		},
 
 		watch: {
@@ -65,7 +71,11 @@ module.exports = function(grunt) {
 	// Theme task
 	grunt.registerTask( 'themes', [ 'sass' ] );
 
-	// Package presentation to archive
-	grunt.registerTask( 'serve', [ 'themes', 'connect:livereload', 'watch' ] );
+	grunt.registerTask( 'serve', function(target) {
+        if (target === 'prez') {
+            grunt.task.run([ 'themes', 'connect:prez' ]);
+        }
+        grunt.task.run([ 'themes', 'connect:livereload', 'watch'])
+    } );
 
 };

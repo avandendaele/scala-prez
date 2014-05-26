@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
 	<head>
 		<meta charset="utf-8">
@@ -52,7 +52,7 @@
 
                 <section>
                     <section>
-                        <h2>Scala de Milan ?</h2>
+                        <h2>Scala de Milan <span class="fragment">?</span></h2>
                         <img class="stretch" src="images/scala_milan.jpg"/>
                     </section>
 
@@ -70,7 +70,7 @@
 public class Person {
     private final String name;
     private final String firstName;
-    public Time(String name, String firstName) {
+    public Person(String name, String firstName) {
         this.name = name;
         this.firstName = firstName;
     }
@@ -92,11 +92,11 @@ class Person(val name: String, val firstName: String)
                 <h2>Acte premier</h2>
                 <h1 class="fragment">Les bases</h1><!-- Adrien -->
                 <ul class="fragment">
-                    <li>les <code>String</code> interpolées</li>
-                    <li>les <code>class</code>es</li>
-                    <li>les <code>object</code>s</li>
-                    <li>les <code>trait</code>s</li>
-                    <li>les tuples</li>
+                    <li>les <code>String</code> interpolées</li><!-- Alexis -->
+                    <li>les <code>class</code>es</li><!-- Adrien -->
+                    <li>les <code>object</code>s</li><!-- Adrien -->
+                    <li>les <code>trait</code>s</li><!-- Adrien -->
+                    <li>les tuples</li><!-- Alexis -->
                 </ul>
             </section>
 
@@ -110,7 +110,7 @@ val name = "James"
 println(s"Hello, $name")
 println(s"1 + 1 = ${1 + 1}")
 
-println(f"$name%s is $height%2.2f meters tall")
+println(f"$name%s is $height%.2f meters tall")
                 </code></pre>
                 </ul>
             </section>
@@ -184,7 +184,7 @@ val flyingFish = new Animal with Swimming with Flying
 
             <section>
                 <h2>Les tuples</h2>
-                <h4 class="sub">Des object rapides et faciles</h4>
+                <h4 class="sub">Des structures rapides et faciles</h4>
                 <pre><code data-trim class="scala">
 val t = ("Alexis", 28) // Tuple2
 t._1 // Premier membre
@@ -221,15 +221,15 @@ t._2 // Second membre
             <section>
                 <h2>Les fonctions sont des objets ?!</h2>
                 <pre><code data-trim class="scala">
-def profile(a: Int, f: Int => Int) = {
-    val r = f(a)
+def profile(arg: Int, fct: Int => Int) = {
+    val r = fct(arg)
     println(s"value = $r")
     r
 }
 
-val f = {i: Int => i + 42}
+val add42 = {i: Int => i + 42}
 
-profile(3, f)
+profile(3, add42)
                 </code></pre>
             </section>
 
@@ -300,32 +300,32 @@ foo match {
                     <li><code>filter</code></li><!-- Alexis -->
                     <li><code>map</code></li><!-- Alexis -->
                     <li><code>flatMap</code></li><!-- Alexis -->
-                    <li>La <code>for</code> comprehension loop</li><!-- Adrien -->
-                    <li><code>foldLeft</code> & <code>foldRight</code></li><!-- Adrien -->
+                    <li>La <code>for</code> comprehension</li><!-- Adrien -->
+                    <li><code>foldLeft</code></li><!-- Adrien -->
                 </ul>
             </section>
 
             <section>
                 <h2><code>filter</code></h2>
-                <pre><code data-trim class="scala">List[T] filter(f: T => Boolean): List[T]</code></pre>
+                <code>List[T] filter(f: T => Boolean): List[T]</code>
                 <pre><code data-trim class="scala">
-persons.filter(p => p.age <= 25)
+speakers.filter(s => s.age <= 25)
                 </code></pre>
             </section>
 
             <section>
                 <h2><code>map</code></h2>
-                <pre><code data-trim class="scala">List[T] map[U](f: T => U): List[U]</code></pre>
+                <code>List[T] map[U](f: T => U): List[U]</code>
                 <pre><code data-trim class="scala">
-persons.map(p => p.name + " " + p.firstName)
+speakers.map(s => s.name + " " + s.firstName)
                 </code></pre>
             </section>
 
             <section>
                 <h2><code>flatMap</code></h2>
-                <pre><code data-trim class="scala">List[T] flatMap[U](f: T => List[U]): List[U]</code></pre>
+                <code>List[T] flatMap[U](f: T => List[U]): List[U]</code>
                 <pre><code data-trim class="scala">
-speakers.flatMap(s => s :: imaginaryChildren.filter(ic => ic.name == s.name))
+speakers.flatMap(s => s :: imaginaryChildren)
                 </code></pre>
             </section>
 
@@ -334,15 +334,15 @@ speakers.flatMap(s => s :: imaginaryChildren.filter(ic => ic.name == s.name))
             </section>
 
             <section>
-                <h2>La <code>for</code> comprehension loop</h2>
-                <h4 class="sub">Le couteau suisse des boucles</h4>
+                <h2>La <code>for</code> comprehension</h2>
+                <h4 class="sub">Le couteau suisse</h4>
                 <pre><code data-trim class="scala">
 for {
     s <- speakers
     ic <- imaginaryChildren if (ic.name == s.name)
 } yield (s, ic)
                 </code></pre>
-                <pre><code data-trim class="scala">
+                <pre class="fragment"><code data-trim class="scala">
 speakers.flatMap{s => imaginaryChildren
     .filter(_.name == s.name)
     .map(ic => (s, ic))
@@ -352,13 +352,13 @@ speakers.flatMap{s => imaginaryChildren
 
             <section>
                 </code></pre>
-                <h2><code>foldLeft</code> & <code>foldRight</code></h2>
-                <pre><code data-trim class="scala">List[T] foldLeft[U](acc: U)(f: (U, T) => U): U</code></pre>
+                <h2><code>foldLeft</code></h2>
+                <code>List[T] foldLeft[U](acc: U)(f: (U, T) => U): U</code>
                 <pre><code data-trim class="scala">
 val l = List(1,2,3)
 l.foldLeft(""){ (acc, e) => acc + e }
                 </code></pre>
-                <pre><code data-trim class="scala">
+                <pre class="fragment"><code data-trim class="scala">
 persons.foldLeft((0,0)) { (acc, p) => p.sex match {
          case Female => (acc._1 + 1, acc._2)
          case Male => (acc._1, acc._2 + 1)
@@ -380,7 +380,7 @@ implicit val x = 5
 def inc(implicit i: Int) = i + 1
                 </code></pre>
 
-                <pre><code data-trim class="scala">
+                <pre class="fragment"><code data-trim class="scala">
 case class Person(age: Int, name: String) {
     def sayHi = println(s"Hi!, I'm $name and I'm $age")
 }
@@ -389,22 +389,29 @@ implicit def tupleToPerson(t: (Int, String)): Person = {
 }
 (28, "Alexis").sayHi
                 </code></pre>
-                <pre><code data-trim class="scala">
-def sorted[B >: A](implicit ord: math.Ordering[B]): List[A]
-implicit object AgeOrdering extends Ordering[Person] {
+                <div class="fragment">
+                    <code data-trim class="scala">
+def sorted[A] (implicit ord: math.Ordering[A]): List[A]
+                    </code>
+                    <pre><code data-trim class="scala">
+                        implicit object AgeOrdering extends Ordering[Person] {
      def compare(a: Person, b: Person) = a.age compare b.age
 }
 person.sorted
-                </code></pre>
+                    </code></pre>
+                </div>
             </section>
 
             <section>
                 <h2>Acte cinq</h2>
                 <h1 class="fragment">L'asynchrone</h1>
-                <ul class="fragment">
-                    <li>Les <code>Future</code>s</li><!-- Alexis -->
-                    <li>Les <code>Promise</code>s</li><!-- Adrien -->
-                </ul>
+                <div class="fragment">
+                    <h4 class="sub">La promesse d'un future radieux</h4>
+                    <ul>
+                        <li>Les <code>Future</code>s</li><!-- Alexis -->
+                        <li>Les <code>Promise</code>s</li><!-- Adrien -->
+                    </ul>
+                </div>
             </section>
 
             <section>
@@ -473,9 +480,9 @@ socket.sendToUSA(paquet) // 5 ans
 
             <section>
                 <h2>Les <code>Future</code>s</h2>
-                <pre><code data-trim class="scala">
+                <code>
 Future[T]
-                </code></pre>
+                </code>
                 <pre><code data-trim class="scala">
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -484,19 +491,26 @@ val socket = Socket()
 val paquet = Future { socket.readFromMemory()  }
 paquet.map(socket.sendToUSA)
                 </code></pre>
+
+                <pre class="fragment"><code data-trim class="scala">
+for {
+    paquet <- Future{ socket.readFromMemory() }
+} yield socket.sendToUSA(paquet)
+                </code></pre>
+
             </section>
 
             <section>
                 <h2>Les <code>Promise</code>s</h2>
-                <pre><code data-trim class="scala">
+                <code>
 Promise[T]().future
-                </code></pre>
-                <pre><code data-trim class="scala">
+                </code>
+                <pre class="fragment"><code data-trim class="scala">
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 
 val promise = Promise[String]()
-promise.future.map(w => println(s"$w FIRST!"))
+val first = for(first <- promise.future) yield (s"$first FIRST!")
 
 def sendToUsa(message: String) = Future {
     Thread.sleep(scala.util.Random.nextInt(5000))
@@ -519,7 +533,23 @@ sendToUsa("Hello!"); sendToChina("Ni hao!")
             </section>
 
             <section>
-                <h2>Des questions ?</h2>
+                <section>
+                    <h2>Des questions ?</h2>
+                    <br/>
+                    <div class="fragment">
+                        <h3>Non ? Dans <code><a href="http://scala-lang.org/">scala</a></code> allez plus loin</h3>
+                        <ul>
+                            <li><a href="http://www.amazon.fr/Programming-Scala-Martin-Odersky/dp/0981531644/ref=sr_1_1?ie=UTF8&qid=1401012385&sr=8-1&keywords=programming+in+scala">Programming in Scala</a> (Livre)</li>
+                            <li><a href="https://www.coursera.org/course/progfun">Programmation fonctionnelle</a> sur Coursera</li>
+                            <li><a href="https://www.coursera.org/course/reactive">Programmation réactive</a> sur Coursera</li>
+                            <li><a href="http://twitter.github.io/scala_school/">Scala School</a> de Twitter</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <img class="stretch no-frame" src="images/QRCode.png">
+                </section>
             </section>
 
 		</div>
