@@ -91,6 +91,11 @@ $selectionColor: $sfeirWhite;
     }
   }
 
+  em {
+    color: $linkColor;
+    font-style: normal;
+  }
+
   .no-frame {
     border: none !important;
     box-shadow: none;
@@ -104,6 +109,10 @@ $selectionColor: $sfeirWhite;
 
     td:not(:first-child) {
       text-align: right;
+    }
+
+    tr.highlight {
+      color: $linkColor;
     }
 
     caption {

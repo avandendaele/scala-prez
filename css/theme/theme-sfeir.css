@@ -30,6 +30,9 @@
   text-shadow: none; }
 .reveal pre code {
   padding: 10px; }
+.reveal em {
+  color: #ff8b50;
+  font-style: normal; }
 .reveal .no-frame {
   border: none !important;
   box-shadow: none; }
@@ -38,6 +41,8 @@
   width: 100%; }
   .reveal .norvig td:not(:first-child) {
     text-align: right; }
+  .reveal .norvig tr.highlight {
+    color: #ff8b50; }
   .reveal .norvig caption {
     caption-side: bottom; }
 .reveal .note, .reveal .norvig caption {

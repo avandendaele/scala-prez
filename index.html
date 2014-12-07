@@ -60,8 +60,12 @@
                         <h2>Non celui de l'<a href="http://scala-lang.org">EPFL</a></h2>
                         <img style="float: right; border: 0; box-shadow: none; margin: 0 -75px 0 0;" src="images/scala-spiral.png" />
                         <p>Créé par <a href="http://twitter.com/odersky">Martin Odersky</a> en 2003</p>
-                        <p>Son nom vient de l'anglais Scalable language</p>
-                        <p>Scala intègre les paradigmes de programmation orientée objet et de programmation fonctionnelle, avec un typage statique</p>
+                        <p>Son nom vient de l'anglais <em>Scalable language</em></p>
+                        <p>
+                            Scala intègre les paradigmes de
+                            <em>programmation orientée objet</em> et de
+                            <em>programmation fonctionnelle</em>, <br/>
+                            avec un typage statique</p>
                     </section>
 
                     <section>
@@ -77,7 +81,7 @@ public class Person {
     public String getName() {
         return name;
     }
-    public int getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 }
@@ -186,7 +190,7 @@ val flyingFish = new Animal with Swimming with Flying
                 <h2>Les tuples</h2>
                 <h4 class="sub">Des structures rapides et faciles</h4>
                 <pre><code data-trim class="scala">
-val t = ("Alexis", 28) // Tuple2
+val t = ("Alexis", 29) // Tuple2
 t._1 // Premier membre
 t._2 // Second membre
                 </code></pre>
@@ -351,7 +355,6 @@ speakers.flatMap{s => imaginaryChildren
             </section>
 
             <section>
-                </code></pre>
                 <h2><code>foldLeft</code></h2>
                 <code>List[T] foldLeft[U](acc: U)(f: (U, T) => U): U</code>
                 <pre><code data-trim class="scala">
@@ -387,7 +390,7 @@ case class Person(age: Int, name: String) {
 implicit def tupleToPerson(t: (Int, String)): Person = {
     Person(t._1, t._2)
 }
-(28, "Alexis").sayHi
+(29, "Alexis").sayHi
                 </code></pre>
                 <div class="fragment">
                     <code data-trim class="scala">
@@ -439,7 +442,7 @@ socket.sendToUSA(paquet)
                             <td>send 2K bytes over 1Gbps network</td>
                             <td align="right">20,000 nanosec</td>
                         </tr>
-                        <tr>
+                        <tr class="highlight">
                             <td>read 1MB sequentially from memory</td>
                             <td align="right">250,000 nanosec</td>
                         </tr>
@@ -451,7 +454,7 @@ socket.sendToUSA(paquet)
                             <td>read 1MB sequentially from disk</td>
                             <td align="right">20,000,000 nanosec</td>
                         </tr>
-                        <tr>
+                        <tr class="highlight">
                             <td>send packet US to Europe and back</td>
                             <td align="right">150,000,000 nanosec</td>
                         </tr>
@@ -543,6 +546,7 @@ sendToUsa("Hello!"); sendToChina("Ni hao!")
                             <li><a href="https://www.coursera.org/course/progfun">Programmation fonctionnelle</a> sur Coursera</li>
                             <li><a href="https://www.coursera.org/course/reactive">Programmation réactive</a> sur Coursera</li>
                             <li><a href="http://twitter.github.io/scala_school/">Scala School</a> de Twitter</li>
+                            <li>Une formation avec un <a href="https://typesafe.com/partners/training-partners">training partner</a></li>
                         </ul>
                     </div>
                 </section>
