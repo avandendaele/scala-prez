@@ -14,7 +14,7 @@
   font-size: 1.3em;
   word-spacing: -0.2em; }
 .reveal h2, .reveal h3, .reveal h4, .reveal h5 {
-  color: black !important;
+  color: #000000 !important;
   text-transform: none !important; }
 .reveal section.align-left > p {
   text-align: left; }
@@ -37,7 +37,6 @@
   border: none !important;
   box-shadow: none; }
 .reveal .norvig {
-  font-size: .8em !important;
   width: 100%; }
   .reveal .norvig td:not(:first-child) {
     text-align: right; }
@@ -52,21 +51,21 @@
  * GLOBAL STYLES
  *********************************************/
 body {
-  background: white;
+  background: #ffffff;
   background: url("../../../images/logo_sfeir.png") 20px 98% no-repeat;
   background-size: auto 4%;
-  background-color: white; }
+  background-color: #ffffff; }
 
 .reveal {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 36px;
   font-weight: normal;
   letter-spacing: -0.02em;
-  color: black; }
+  color: #000000; }
 
 ::selection {
-  color: white;
-  background: black;
+  color: #ffffff;
+  background: #000000;
   text-shadow: none; }
 
 /*********************************************
@@ -108,7 +107,7 @@ body {
 
 .reveal .roll span:after {
   color: #fff;
-  background: #ff5803; }
+  background: #ff5804; }
 
 /*********************************************
  * IMAGES
@@ -116,7 +115,7 @@ body {
 .reveal section img {
   margin: 15px 0px;
   background: rgba(255, 255, 255, 0.12);
-  border: 4px solid black;
+  border: 4px solid #000000;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   -webkit-transition: all .2s linear;
   -moz-transition: all .2s linear;
@@ -179,3 +178,5 @@ body {
  *********************************************/
 .reveal .slide-number {
   color: #ff8b50; }
+
+/*# sourceMappingURL=theme-sfeir.css.map */

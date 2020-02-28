@@ -1,28 +1,28 @@
 {
   "name": "Scala-Prez",
-  "version": "0.1.0",
+  "version": "2017.5.1",
   "description": "Overview of Scala and it's power",
   "private": true,
   "author": "Vandendaele Alexis",
-  "contributors": [
-    "Vandendaele Alexis",
-    "Cominotto Adrien"
-  ],
+  "scripts": {
+    "test": "grunt test",
+    "start": "grunt serve",
+    "build": "grunt"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:avandendaele/scala-prez.git"
   },
-  "bugs": {
-    "url": "https://github.com/avandendaele/scala-prez/issues"
-  },
   "devDependencies": {
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-sass": "~0.5.0",
-    "grunt-contrib-connect": "~0.7.0",
-    "grunt": "~0.4.0"
+    "grunt": "^1.0.1",
+    "grunt-cli": "~1.2.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
   },
   "license": "GPL-3.0",
   "keywords": [
     "scala"
-  ]
+  ],
+  "dependencies": {}
 }
